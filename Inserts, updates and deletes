@@ -1,0 +1,69 @@
+/* ==========================================================================
+   ARCHIVO:       02_DML_Operaciones.sql
+   AUTOR:         Daniella A. Rocha Palacios
+   PROPÓSITO:     Población de Datos y Pruebas CRUD (DML)
+   ========================================================================== */
+
+use Bd_evaluacion_desempeno;
+go
+
+-- INSERTS (Mínimo 3 por tabla)
+insert into rrhh.Departamento (Nombre_departamento) values 
+    (N'Dirección General'), (N'Tecnología'), (N'Ventas'), (N'Marketing (Para borrar)');
+
+insert into rrhh.Puesto (Nombre_puesto) values 
+    (N'Gerente General'), (N'Desarrollador Backend'), (N'Ejecutivo de Ventas'), (N'Pasante (Para borrar)');
+
+insert into rrhh.Competencia_objetivo (Nombre, Escala_calificacion) values 
+    (N'Liderazgo', 5), (N'Trabajo en Equipo', 5), (N'Resolución de Problemas', 10), (N'Obsolescencia', 5);
+
+insert into rrhh.Ciclo_evaluacion (Nombre_ciclo, Fecha_inicio, Fecha_fin) values 
+    (N'Anual 2024', '2024-01-01', '2024-12-31'),
+    (N'Semestral 2025-1', '2025-01-01', '2025-06-30'),
+    (N'Semestral 2025-2', '2025-07-01', '2025-12-31'),
+    (N'Ciclo Cancelado', '2026-01-01', '2026-12-31');
+
+insert into rrhh.Plantilla_evaluacion (Nombre_plantilla) values 
+    (N'Plantilla Ejecutiva'), (N'Plantilla Técnica'), (N'Plantilla Comercial'), (N'Plantilla Borrador');
+
+insert into rrhh.Empleado (Nombres, Apellidos, Id_departamento, Id_puesto, Id_jefe) values 
+    (N'Carlos', N'Slim', 1, 1, null), 
+    (N'Ada', N'Lovelace', 2, 2, 1),   
+    (N'Steve', N'Jobs', 3, 3, 1),     
+    (N'Juan', N'Pérez', 3, 3, 3);     
+
+insert into rrhh.Evaluacion (Id_empleado, Id_ciclo, Id_plantilla, Estado, Puntuacion_final) values 
+    (2, 1, 2, N'Completada', 95.50),
+    (3, 1, 3, N'Completada', 88.00),
+    (2, 2, 2, N'En Progreso', null),
+    (1, 1, 1, N'Pendiente', null); 
+
+insert into rrhh.Detalle_evaluacion (Id_evaluacion, Id_competencia, Calificacion, Comentarios_jefe) values
+    (1, 2, 5, N'Excelente colaboración con el equipo de QA.'),
+    (1, 3, 9, N'Resolvió el bug de producción eficientemente.'),
+    (2, 1, 4, N'Buen manejo de la cartera de clientes.'),
+    (2, 2, 4, N'Registro temporal para borrar.');
+
+
+-- UPDATES
+update rrhh.Departamento set Nombre_departamento = N'Tecnología e Innovación' where Id_departamento = 2;
+update rrhh.Puesto set Nombre_puesto = N'Ingeniero Backend' where Id_puesto = 2;
+update rrhh.Competencia_objetivo set Estado = N'Inactivo' where Id_competencia = 3;
+update rrhh.Ciclo_evaluacion set Nombre_ciclo = N'Evaluación Anual 2024' where Id_ciclo = 1;
+update rrhh.Plantilla_evaluacion set Nombre_plantilla = N'Plantilla TI' where Id_plantilla = 2;
+update rrhh.Empleado set Nombres = N'Carlos A.' where Id_empleado = 1;
+update rrhh.Evaluacion set Estado = N'Completada', Puntuacion_final = 92.00 where Id_evaluacion = 3;
+update rrhh.Detalle_evaluacion set Calificacion = 5 where Id_detalle = 3;
+
+
+-- DELETES (Físicos y Lógicos)
+delete from rrhh.Detalle_evaluacion where Id_detalle = 4;
+delete from rrhh.Evaluacion where Id_evaluacion = 4;
+delete from rrhh.Empleado where Id_empleado = 4;
+delete from rrhh.Plantilla_evaluacion where Id_plantilla = 4;
+delete from rrhh.Ciclo_evaluacion where Id_ciclo = 4;
+delete from rrhh.Competencia_objetivo where Id_competencia = 4;
+
+update rrhh.Puesto set Deleted_at = sysdatetime() where Id_puesto = 4;
+update rrhh.Departamento set Deleted_at = sysdatetime() where Id_departamento = 4;
+go
