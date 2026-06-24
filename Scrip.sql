@@ -1,5 +1,3 @@
--- FASE 1: DDL (Estructura)
-
 use master;
 go
 
@@ -217,4 +215,98 @@ inner join rrhh.Empleado e on ev.Id_empleado = e.Id_empleado
 inner join rrhh.Departamento d on e.Id_departamento = d.Id_departamento
 inner join rrhh.Puesto p on e.Id_puesto = p.Id_puesto
 inner join rrhh.Ciclo_evaluacion c on ev.Id_ciclo = c.Id_ciclo;
+go
+
+-- Nuevos departamentos
+insert into rrhh.Departamento (Nombre_departamento) values
+    (N'Recursos Humanos'),
+    (N'Finanzas'),
+    (N'Soporte Técnico'),
+    (N'Calidad');
+
+-- Nuevos puestos
+insert into rrhh.Puesto (Nombre_puesto) values
+    (N'Analista de Recursos Humanos'),
+    (N'Contador General'),
+    (N'Técnico de Soporte'),
+    (N'QA Tester'),
+    (N'Supervisor de Ventas'),
+    (N'Coordinador de Proyectos');
+
+-- Nuevas competencias
+insert into rrhh.Competencia_objetivo (Nombre, Escala_calificacion, Estado) values
+    (N'Comunicación efectiva', 5, N'Activo'),
+    (N'Puntualidad', 5, N'Activo'),
+    (N'Productividad', 10, N'Activo'),
+    (N'Adaptabilidad', 5, N'Activo'),
+    (N'Atención al cliente', 5, N'Activo'),
+    (N'Gestión del tiempo', 5, N'Activo'),
+    (N'Calidad del trabajo', 10, N'Activo');
+
+-- Nuevos ciclos
+insert into rrhh.Ciclo_evaluacion (Nombre_ciclo, Fecha_inicio, Fecha_fin) values
+    (N'Evaluación Anual 2025', '2025-01-01', '2025-12-31'),
+    (N'Evaluación Semestral 2026-1', '2026-01-01', '2026-06-30');
+
+-- Nuevas plantillas
+insert into rrhh.Plantilla_evaluacion (Nombre_plantilla) values
+    (N'Plantilla Administrativa'),
+    (N'Plantilla Servicio al Cliente'),
+    (N'Plantilla Supervisión');
+
+-- Nuevos empleados
+insert into rrhh.Empleado (Nombres, Apellidos, Id_departamento, Id_puesto, Id_jefe) values
+    (N'María', N'González', 5, 5, 1),
+    (N'Luis', N'Martínez', 6, 6, 1),
+    (N'Fernanda', N'Castillo', 7, 7, 2),
+    (N'Roberto', N'Mendoza', 8, 8, 2),
+    (N'Camila', N'Rivera', 3, 9, 3),
+    (N'Andrés', N'Flores', 2, 10, 2),
+    (N'Sofía', N'Ramírez', 5, 5, 5),
+    (N'Diego', N'Torres', 7, 7, 7),
+    (N'Valeria', N'Navarro', 8, 8, 8),
+    (N'Marco', N'Herrera', 3, 3, 9);
+
+-- Nuevas evaluaciones
+insert into rrhh.Evaluacion (Id_empleado, Id_ciclo, Id_plantilla, Estado, Puntuacion_final) values
+    (5, 5, 5, N'Completada', 91.00),
+    (6, 5, 5, N'Completada', 84.50),
+    (7, 5, 6, N'Completada', 76.00),
+    (8, 5, 2, N'Completada', 89.75),
+    (9, 5, 7, N'Completada', 93.25),
+    (10, 5, 2, N'En Progreso', null),
+    (11, 6, 5, N'Pendiente', null),
+    (12, 6, 6, N'En Progreso', null),
+    (13, 6, 2, N'Completada', 97.00),
+    (14, 6, 7, N'Completada', 86.50);
+
+-- Nuevos detalles de evaluación
+insert into rrhh.Detalle_evaluacion (Id_evaluacion, Id_competencia, Calificacion, Comentarios_jefe) values
+    (5, 5, 5, N'Mantiene buena comunicación con el equipo.'),
+    (5, 6, 5, N'Cumple con sus horarios y entregas.'),
+    (5, 10, 4, N'Organiza bien sus tareas.'),
+
+    (6, 5, 4, N'Se comunica bien con sus compañeros.'),
+    (6, 7, 8, N'Muestra buen nivel de productividad.'),
+    (6, 11, 8, N'Entrega trabajos con buena calidad.'),
+
+    (7, 9, 4, N'Brinda buena atención a los usuarios.'),
+    (7, 6, 3, N'Debe mejorar su puntualidad.'),
+    (7, 10, 3, N'Necesita organizar mejor sus tiempos.'),
+
+    (8, 3, 9, N'Resuelve problemas técnicos con rapidez.'),
+    (8, 11, 9, N'Presenta entregas de buena calidad.'),
+    (8, 8, 4, N'Se adapta bien a cambios del equipo.'),
+
+    (9, 1, 5, N'Muestra liderazgo con su equipo de ventas.'),
+    (9, 2, 5, N'Trabaja muy bien en equipo.'),
+    (9, 7, 9, N'Mantiene alto rendimiento comercial.'),
+
+    (13, 3, 10, N'Resuelve incidencias críticas de manera eficiente.'),
+    (13, 11, 10, N'Su trabajo tiene excelente calidad.'),
+    (13, 8, 5, N'Se adapta rápido a nuevas herramientas.'),
+
+    (14, 1, 4, N'Tiene buen manejo del equipo.'),
+    (14, 5, 4, N'Se comunica correctamente.'),
+    (14, 10, 4, N'Administra adecuadamente sus tareas.');
 go
